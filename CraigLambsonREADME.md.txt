@@ -1,4 +1,9 @@
-Craig Lambsonís notes on System Engineer Job Interview Assignment
+Craig Lambson‚Äôs notes on System Engineer Job Interview Assignment
+
+Ive been through many iterations of this part of the exercise.  In the end, I just used the github desktop and drag and dropped the files to upload.  
+
+this is some of the old history:
+
 Writing a Dockerfile is the first step to containerizing an application. You can think of these Dockerfile commands as a step-by-step recipe on how to build up your image. The Dockerfile in the bulletin board app looks like this:
 # Use the official image as a parent image.
 FROM node:current-slim
@@ -21,35 +26,35 @@ CMD [ "npm", "start" ]
 # Copy the rest of your app's source code from your host to your image filesystem.
 COPY . .
 The dockerfile defined in this example takes the following steps:
-* Start†FROM†the pre-existing†node:current-slim†image. This is an†official image, built by the node.js vendors and validated by Docker to be a high-quality image containing the Node.js Long Term Support (LTS) interpreter and basic dependencies.
-* Use†WORKDIR†to specify that all subsequent actions should be taken from the directory†/usr/src/app†in your image filesystem†(never the hostís filesystem).
-* COPY†the file†package.json†from your host to the present location (.) in your image (so in this case, to†/usr/src/app/package.json)
-* RUN†the command†npm install†inside your image filesystem (which will read†package.json†to determine your appís node dependencies, and install them)
-* COPY†in the rest of your appís source code from your host to your image filesystem.
+* Start¬†FROM¬†the pre-existing¬†node:current-slim¬†image. This is an¬†official image, built by the node.js vendors and validated by Docker to be a high-quality image containing the Node.js Long Term Support (LTS) interpreter and basic dependencies.
+* Use¬†WORKDIR¬†to specify that all subsequent actions should be taken from the directory¬†/usr/src/app¬†in your image filesystem¬†(never the host‚Äôs filesystem).
+* COPY¬†the file¬†package.json¬†from your host to the present location (.) in your image (so in this case, to¬†/usr/src/app/package.json)
+* RUN¬†the command¬†npm install¬†inside your image filesystem (which will read¬†package.json¬†to determine your app‚Äôs node dependencies, and install them)
+* COPY¬†in the rest of your app‚Äôs source code from your host to your image filesystem.
 You can see that these are much the same steps you might have taken to set up and install your app on your host. However, capturing these as a Dockerfile allows you to do the same thing inside a portable, isolated Docker image.
 The steps above built up the filesystem of our image, but there are other lines in your Dockerfile.
-The†CMD†directive is the first example of specifying some metadata in your image that describes how to run a container based on this image. In this case, itís saying that the containerized process that this image is meant to support is†npm start.
-The†EXPOSE 8080†informs Docker that the container is listening on port 8080 at runtime.
-What you see above is a good way to organize a simple Dockerfile; always start with a†FROM†command, follow it with the steps to build up your private filesystem, and conclude with any metadata specifications. There are many more Dockerfile directives than just the few you see above. For a complete list, see the†Dockerfile reference.
+The¬†CMD¬†directive is the first example of specifying some metadata in your image that describes how to run a container based on this image. In this case, it‚Äôs saying that the containerized process that this image is meant to support is¬†npm start.
+The¬†EXPOSE 8080¬†informs Docker that the container is listening on port 8080 at runtime.
+What you see above is a good way to organize a simple Dockerfile; always start with a¬†FROM¬†command, follow it with the steps to build up your private filesystem, and conclude with any metadata specifications. There are many more Dockerfile directives than just the few you see above. For a complete list, see the¬†Dockerfile reference.
 
 
 1b.build and run the node-bulletin-board image using the Docker client on your machine
 Introduction
-Now that youíve set up your development environment, you can begin to develop containerized applications. In general, the development workflow looks like this:
+Now that you‚Äôve set up your development environment, you can begin to develop containerized applications. In general, the development workflow looks like this:
 1. Create and test individual containers for each component of your application by first creating Docker images.
 2. Assemble your containers and supporting infrastructure into a complete application.
 3. Test, share, and deploy your complete containerized application.
-In this stage of the tutorial, letís focus on step 1 of this workflow: creating the images that your containers will be based on. Remember, a Docker image captures the private filesystem that your containerized processes will run in; you need to create an image that contains just what your application needs to run.
+In this stage of the tutorial, let‚Äôs focus on step 1 of this workflow: creating the images that your containers will be based on. Remember, a Docker image captures the private filesystem that your containerized processes will run in; you need to create an image that contains just what your application needs to run.
 
 Set up
-Let us download the†node-bulletin-board†example project. This is a simple bulletin board application written in Node.js.
+Let us download the¬†node-bulletin-board¬†example project. This is a simple bulletin board application written in Node.js.
 
 Git
 If you are using Git, you can clone the example project from GitHub:
 git clone https://github.com/dockersamples/node-bulletin-board
 cd node-bulletin-board/bulletin-board-app
 Define a container with Dockerfile
-After downloading the project, take a look at the file called†Dockerfile†in the bulletin board application. Dockerfiles describe how to assemble a private filesystem for a container, and can also contain some metadata describing how to run a container based on this image.
+After downloading the project, take a look at the file called¬†Dockerfile¬†in the bulletin board application. Dockerfiles describe how to assemble a private filesystem for a container, and can also contain some metadata describing how to run a container based on this image.
 
 View of Dockerfile
 PS C:\Users\micro\node-bulletin-board\bulletin-board-app> more dockerfile
@@ -66,7 +71,7 @@ COPY . .
 
 build and run the node-bulletin-board image
 
-Make sure youíre in the directory†node-bulletin-board/bulletin-board-app†in a terminal or PowerShell using the†cd†command. Run the following command to build your bulletin board image:
+Make sure you‚Äôre in the directory¬†node-bulletin-board/bulletin-board-app¬†in a terminal or PowerShell using the¬†cd¬†command. Run the following command to build your bulletin board image:
 docker build --tag bulletinboard:1.0 .
 PS C:\Users\micro\node-bulletin-board\bulletin-board-app> docker build --tag bulletinboard:1.0 .
 Sending build context to Docker daemon  45.57kB
@@ -141,23 +146,23 @@ Successfully built ee51ea79aacd
 Successfully tagged bulletinboard:1.0
 SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
 PS C:\users\micro\node-bulletin-board\bulletin-board-app>There are a couple of common flags here:
-o --publish†asks Docker to forward traffic incoming on the hostís port 8000 to the containerís port 8080. Containers have their own private set of ports, so if you want to reach one from the network, you have to forward traffic to it in this way. Otherwise, firewall rules will prevent all network traffic from reaching your container, as a default security posture.
-o --detach†asks Docker to run this container in the background.
-o --name†specifies a name with which you can refer to your container in subsequent commands, in this case†bb.
+o --publish¬†asks Docker to forward traffic incoming on the host‚Äôs port 8000 to the container‚Äôs port 8080. Containers have their own private set of ports, so if you want to reach one from the network, you have to forward traffic to it in this way. Otherwise, firewall rules will prevent all network traffic from reaching your container, as a default security posture.
+o --detach¬†asks Docker to run this container in the background.
+o --name¬†specifies a name with which you can refer to your container in subsequent commands, in this case¬†bb.
 PS C:\Users\micro\node-bulletin-board\bulletin-board-app> docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
 4c92b81aa2db75572e042056ad538a734ce4a93f74fa92a7e8ff46d200a172cd
 PS C:\Users\micro\node-bulletin-board\bulletin-board-app>
-2,  Visit your application in a browser at†localhost:8000. You should see your bulletin board application up and running.†
+2,  Visit your application in a browser at¬†localhost:8000. You should see your bulletin board application up and running.¬†
 
 
 At this step, you would normally do everything you could to ensure your container works the way you expected; now would be the time to run unit tests, for example.
 
-Modify the index.html file welcome line ëWelcome to the Bulletin Boardí to include your name or another greeting.
+Modify the index.html file welcome line ‚ÄòWelcome to the Bulletin Board‚Äô to include your name or another greeting.
 <div class="jumbotron">
     <h1>Welcome to the Bulletin Board</h1>
   </div>
 
-How do I edit in powershell?  >vi doesnít work because Im not running linux.
+How do I edit in powershell?  >vi doesn‚Äôt work because Im not running linux.
 PS C:\Users\micro\node-bulletin-board\bulletin-board-app>  vi
 vi : The term 'vi' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the
 name, or if a path was included, verify that the path is correct and try again.
@@ -239,13 +244,13 @@ Successfully tagged bulletinboard:1.0
 SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
 PS C:\users\micro\node-bulletin-board\bulletin-board-app>
 
-*  Tried to tag the build with bulletin-board:2.0, but it didnít work.
+*  Tried to tag the build with bulletin-board:2.0, but it didn‚Äôt work.
 Now I need to publish it:
 PS docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
 PS C:\users\micro\node-bulletin-board\bulletin-board-app> docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
 docker: Error response from daemon: Conflict. The container name "/bb" is already in use by container "4c92b81aa2db75572e042056ad538a734ce4a93f74fa92a7e8ff46d200a172cd". You have to remove (or rename) that container to be able to reuse that name.
 See 'docker run --help'.
-** Iíll name the container bbc;  
+** I‚Äôll name the container bbc;  
 PS C:\users\micro\node-bulletin-board\bulletin-board-app> docker run --publish 8000:8080 --detach --name bbc  bulletinboard:1.0
 ad204dba0dff743e8af3a2d55ff13b4ecac8e93e4d788d0376f0b7527ed381f2
 docker: Error response from daemon: driver failed programming external connectivity on endpoint bbc (6a3ceda1accab2c7632c770b49360dd5c58a54f815e7e77e374a94a84f3456db): Bind for 0.0.0.0:8000 failed: port is already allocated.
@@ -261,8 +266,8 @@ We published to local host 8080
 
 Hurray!  It worked.
 
-*** Modify the Dockerfile FROM line to use a different base image.  For example, you could use ìcurrent-alpineî instead of ìcurrent-slimî
-This implies Iím building a new Dockerfile.
+*** Modify the Dockerfile FROM line to use a different base image.  For example, you could use ‚Äúcurrent-alpine‚Äù instead of ‚Äúcurrent-slim‚Äù
+This implies I‚Äôm building a new Dockerfile.
 Current-slim is the default base image.
 docker build --tag bulletinboard:1.0 .
 
@@ -313,7 +318,7 @@ SECURITY WARNING: You are building a Docker image from Windows against a non-Win
 
 ** Build the docker image locally and test your changes.
 We built it.  Now we have to run it.
-Docker run ñpublish 8080:8080 ñdetach ñname bb bulletinboard:1.0
+Docker run ‚Äìpublish 8080:8080 ‚Äìdetach ‚Äìname bb bulletinboard:1.0
 Must remove or rename running container craig
 First stop running craig
 Removed container craig.

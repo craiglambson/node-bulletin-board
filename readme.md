@@ -20,7 +20,9 @@ Thank you for the opportunity of using this software again.  I look forward to b
 Kindest regards,
 Craig
 
-below follows my log file:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+below follows my log file:  Sunday, Sept. 20, 2020  11:45pm
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 Authenticating to GitHub Packages

@@ -1,0 +1,2 @@
+This is going to be a new file in my local cloned git hub repository "node-bulletin-board".
+I will need to add it to the repository and then push it back.

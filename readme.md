@@ -170,6 +170,7 @@ C:\Users\micro\clonedfromgithub\node-bulletin-board>git commit -m "first commit"
 [master 984698b] first commit
  1 file changed, 2 insertions(+)
  create mode 100644 test.txt
+ 
 set remote repository
 C:\Users\micro\clonedfromgithub\node-bulletin-board>git remote -v
 origin  https://github.com/craiglambson/node-bulletin-board (fetch)
